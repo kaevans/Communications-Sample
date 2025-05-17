@@ -49,10 +49,25 @@ This example shows how to use a custom verified domain with Azure Communication 
 | destinationEmailAddress   | The email address of the recipient to send a test email to |
 
 The result is the user is added as an authenticated sender for the Communication Service.
-![alt text](/images/SMTPUsernames.png "SMTP Usernames")
+![Image showing SMTP usernames for a Communication Service](/images/SMTPUsernames.png "SMTP Usernames")
 
 The user is also added as a MailFrom to the custom verified domain. 
-![alt text](/images/MailFrom.png "MailFrom")
+![MailFrom addresses added to a custom verified Email Communication Service domain](/images/MailFrom.png "MailFrom")
+
+## Monitoring
+Using this approach, you can migrate from individual mailboxes to authenticated senders to track utilization. You can use Azure Log Analytics to query the `ACSEmailStatusUpdateOperational` table to query mails sent per user per day. 
+
+```kql
+ACSEmailStatusUpdateOperational
+| where DeliveryStatus == "Delivered"
+| summarize DailyMailsSent = count() by SenderUsername, format_datetime(bin(TimeGenerated, 1d),'yyyy-MM-dd')
+```
+
+![Results from a Log Analytics query showing mails delivered per user per day as a table](/images/loganalytics.png "LogAnalyticsTable")
+
+This information can then be used for alerts, dashboards, and workbooks.
+
+![Results from a Log Analytics query showing mails delivered per user per day as a bar chart](/images/barchart.png "LogAnalyticsBarChart")
 
 ## Contributing
 
