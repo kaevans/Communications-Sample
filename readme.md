@@ -1,12 +1,13 @@
 # Communications Sample
 
-This repository provides sample code and documentation for building communication-related applications. It is intended as a starting point for developers looking to implement messaging, notifications, or other communication features.
+This example shows how to use a custom verified domain with Azure Communication Service. It shows how to register a new authenticated SMTP sender and how to add a custom MailFrom in the email domain. It is intended as a starting point for developers looking to implement email using custom verified domains with Azure Communications Service. 
 
 ## Features
 
-- Sample implementations for messaging and notifications
-- Modular and easy-to-understand code structure
-- Well-documented examples
+- Creates a new service principal that will be used for a new authenticated sender. 
+- Assigns the new service principal the "Communication and Email Service Owner" role required for authenticated senders.
+- Creates a new authenticated SMTP user. 
+- Adds a new MailFrom to the the custom verified email domain.
 
 ## Getting Started
 
@@ -18,15 +19,40 @@ This repository provides sample code and documentation for building communicatio
     ```bash
     cd Communications-Sample
     ```
-3. Follow the instructions in the relevant sample folders to run the examples.
+3. Change the 8 variables in the `test.ps1` script to match your Azure environment and run `test.ps1` to send a test email using your new authenticated sender with a custom MailFrom address. 
+
+
 
 ## Requirements
 
-- [List any dependencies or prerequisites, e.g., Node.js, Python, etc.]
+- Latest version of the Azure CLI
+- Latest version of the Communication module for the Azure CLI
+- Permission to create service principals in your Entra tenant
+- An existing Communication Service with an existing Email Communication Service
+- An existing verified domain for the Communication Service
+- Owner permission for the Communication Service, required to assign roles to the service principal
+- Contributor permission on the resource group to add new resources
 
 ## Usage
 
-Refer to the individual sample folders for detailed usage instructions.
+1. Change the 8 variables in the `test.ps1` script to match your Azure environment and run `test.ps1` to send a test email using your new authenticated sender with a custom MailFrom address. 
+
+| Syntax | Description |
+| ----------- | ----------- |
+| subscriptionId | The ID of your Azure subscription |
+| tenantId | The ID of your Azure tenant |
+| resourceGroupName  | The name of your Azure resource group |
+| communicationServiceName  | The resource name of your Azure Communication Service |
+| emailCommunicationServiceName | The resource name of your Azure Email Communication Service |
+| emailDomainName  | The verified custom domain |
+| senderUsername  | The username of your new authenticated user, such as 'user1' |
+| destinationEmailAddress   | The email address of the recipient to send a test email to |
+
+The result is the user is added as an authenticated sender for the Communication Service.
+![alt text](/images/smtpusernames.png "SMTP Usernames")
+
+The user is also added as a MailFrom to the custom verified domain. 
+![alt text](/images/MailFrom.png "MailFrom")
 
 ## Contributing
 
