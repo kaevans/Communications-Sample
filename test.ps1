@@ -17,4 +17,4 @@ $Port = 587
 $Password = ConvertTo-SecureString -AsPlainText -Force -String $output.password
 $Cred = New-Object -TypeName PSCredential -ArgumentList $output.senderEmailAddress, $Password
 
-Send-MailMessage -From $senderEmailAddress -To $destinationEmailAddress -Subject 'Hello from PowerShell' -Body 'test' -SmtpServer $SmtpServer -Port $Port -Credential $Cred -UseSsl
+Send-MailMessage -From $output.senderEmailAddress -To $destinationEmailAddress -Subject 'Hello from PowerShell' -Body 'test' -SmtpServer $SmtpServer -Port $Port -Credential $Cred -UseSsl

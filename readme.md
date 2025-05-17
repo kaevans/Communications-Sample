@@ -49,7 +49,7 @@ This example shows how to use a custom verified domain with Azure Communication 
 | destinationEmailAddress   | The email address of the recipient to send a test email to |
 
 The result is the user is added as an authenticated sender for the Communication Service.
-![alt text](/images/smtpusernames.png "SMTP Usernames")
+![alt text](/images/SMTPUsernames.png "SMTP Usernames")
 
 The user is also added as a MailFrom to the custom verified domain. 
 ![alt text](/images/MailFrom.png "MailFrom")
