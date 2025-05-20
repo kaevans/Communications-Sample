@@ -53,13 +53,6 @@ param(
 
 $senderEmailAddress = $senderUsername + "@" + $emailDomainName
 
-# Login to Azure
-az login 
-# Set the subscription  context
-az account set --subscription $subscriptionId
-az extension add --upgrade -n communication
-
-
 # Create application service principal  and assign role and get the password    
 $spAppId = az ad sp create-for-rbac --name $senderEmailAddress --role "Communication and Email Service Owner" --scopes /subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Communication/communicationServices/$communicationServiceName --query "appId" --output tsv 
 $spPassword = az ad sp credential reset --id $spAppId --query "password" --output tsv

@@ -47,12 +47,28 @@ This example shows how to use a custom verified domain with Azure Communication 
 | emailDomainName  | The verified custom domain |
 | senderUsername  | The username of your new authenticated user, such as 'user1' |
 | destinationEmailAddress   | The email address of the recipient to send a test email to |
+| keyVaultName | The name of the Azure KeyVault used to securely store the app secret
+
+Execute the test script:
+
+```powershell
+# Login to Azure
+az login 
+# Set the subscription  context
+az account set --subscription $subscriptionId
+az extension add --upgrade -n communication
+
+./test.ps1
+```
 
 The result is the user is added as an authenticated sender for the Communication Service.
 ![Image showing SMTP usernames for a Communication Service](/images/SMTPUsernames.png "SMTP Usernames")
 
 The user is also added as a MailFrom to the custom verified domain. 
 ![MailFrom addresses added to a custom verified Email Communication Service domain](/images/MailFrom.png "MailFrom")
+
+## Authorization
+This version of the script creates a service principal and assigns it the role `Communication and Email Service Owner`. If you instead want to use a custom role, edit the `smtpSenderRoleDefinition.json` file with your subscription ID, resource group name, and Communication Service name and save the file. Then run the `customRoleDefintion.ps1` script to create a custom role definition. Update the `onboard.ps1` script to use the name of your new custom role definition `Communication Service SMTP Sender`. 
 
 ## Monitoring
 Using this approach, you can migrate from individual mailboxes to authenticated senders to track utilization. You can use Azure Log Analytics to query the `ACSEmailStatusUpdateOperational` table to query mails sent per user per day. 

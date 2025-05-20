@@ -1,0 +1,17 @@
+{    
+    "Name": "Communication Service SMTP Sender",
+    "IsCustom" : true,
+    "Description": "Enables a custom SMTP Sender to send mails via the Azure Communication Service.",        
+    "Actions": [
+        "*/read",
+        "Microsoft.Communication/CommunicationServices/Write",
+        "Microsoft.Communication/EmailServices/write",
+        "Microsoft.Communication/CommunicationServices/Read"
+    ],
+    "NotActions": [],
+    "DataActions": [],
+    "NotDataActions": [],
+    "AssignableScopes": [
+        "/subscriptions/<YOUR SUBSCRIPTION ID>/resourceGroups/<YOUR RESOURCE GROUP NAME>/providers/Microsoft.Communication/CommunicationServices/<YOUR COMMUNICATION SERVICE NAME>"
+    ]    
+}
