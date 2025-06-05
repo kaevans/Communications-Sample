@@ -117,6 +117,10 @@ $senderEmailAddress = $senderUsername + "@" + $emailDomainName
 # Add the service principal and assign it the Communication and Email Service Owner role for the specified communication service
 $spAppId = Add-AppAndRoleAssignment -senderEmailAddress $senderEmailAddress -tenantId $tenantId -subscriptionId $subscriptionId -resourceGroupName $resourceGroupName -communicationServiceName $communicationServiceName
 
+# Wait for propagation of the service principal creation and role assignment
+Write-Host "Waiting for service principal and role assignment to propagate, sleeping for 30 seconds..."
+Start-Sleep -Seconds 30
+
 # Add a new password to the service principal
 $secret = Add-AppPassword -spAppId $spAppId
 
