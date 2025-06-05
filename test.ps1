@@ -9,6 +9,10 @@ $destinationEmailAddress = "<YOUR DESTINATION EMAIL ADDRESS>"
 $keyVaultName = "<YOUR AZURE KEY VAULT NAME>"
 
 
+# Requires PowerShell -Version 7.0 or higher
+#Requires -Version 7
+
+
 # Create a service principal, assign it the Communication and Email Service Owner role for the specified communication service,
 # create an SMTP user for the email domain, and create a sender MailFrom for the email domain.
 # It returns the service principal appId, password, and sender email address.
@@ -24,9 +28,5 @@ $Port = 587
 $Password = ConvertTo-SecureString -AsPlainText -Force -String $output.password
 $Cred = New-Object -TypeName PSCredential -ArgumentList $output.senderEmailAddress, $Password
 
-#Permissions propagation may take a few minutes, so wait before sending the email
-Write-Host "Waiting for permissions to propagate, sleeping for 30 seconds..."
-Start-Sleep -Seconds 30
+Write-Host "Sending test email to $destinationEmailAddress from $($output.senderEmailAddress)..." -ForegroundColor Green
 Send-MailMessage -From $output.senderEmailAddress -To $destinationEmailAddress -Subject 'Hello from PowerShell' -Body 'test' -SmtpServer $SmtpServer -Port $Port -Credential $Cred -UseSsl
-
-

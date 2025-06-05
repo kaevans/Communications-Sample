@@ -118,17 +118,21 @@ $senderEmailAddress = $senderUsername + "@" + $emailDomainName
 $spAppId = Add-AppAndRoleAssignment -senderEmailAddress $senderEmailAddress -tenantId $tenantId -subscriptionId $subscriptionId -resourceGroupName $resourceGroupName -communicationServiceName $communicationServiceName
 
 # Wait for propagation of the service principal creation and role assignment
-Write-Host "Waiting for service principal and role assignment to propagate, sleeping for 30 seconds..."
+Write-Host "Waiting for service principal and role assignment to propagate, sleeping for 30 seconds..." -ForegroundColor Green
 Start-Sleep -Seconds 30
 
 # Add a new password to the service principal
 $secret = Add-AppPassword -spAppId $spAppId
+
+Write-Host "Waiting for new service principal secret version to propagate, sleeping for 30 seconds..." -ForegroundColor Green
+Start-Sleep -Seconds 30
 
 # Create the email communication service SMTP user used to authenticate to the email domain
 az communication smtp-username create --comm-service-name $communicationServiceName --name $senderUsername --resource-group $resourceGroupName --entra-application-id $spAppId --username $senderEmailAddress --tenant-id $tenantId
 
 # Create a sender MailFrom for the email domain 
 az communication email domain sender-username create --domain-name $emailDomainName --email-service-name $emailCommunicationServiceName --name $senderUsername --resource-group $resourceGroupName --display-name $senderEmailAddress --username $senderUsername
+
 
 #WARNING: The following writes sensitive information to the pipeline output.
 # This includes the Entra application ID, the Entra application secret in plain text, and the sender email address.
