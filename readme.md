@@ -19,12 +19,14 @@ This example shows how to use a custom verified domain with Azure Communication 
     ```bash
     cd Communications-Sample
     ```
-3. Change the 8 variables in the `test.ps1` script to match your Azure environment and run `test.ps1` to send a test email using your new authenticated sender with a custom MailFrom address. 
+3. Configure pre-requisites
+4. Change the 8 variables in the `test.ps1` script to match your Azure environment and run `test.ps1` to send a test email using your new authenticated sender with a custom MailFrom address. 
 
 
 
 ## Requirements
 
+- PowerShell 7 or higher
 - Latest version of the Azure CLI
 - Latest version of the Communication module for the Azure CLI
 - Permission to create service principals in your Entra tenant
@@ -33,7 +35,40 @@ This example shows how to use a custom verified domain with Azure Communication 
 - Owner permission for the Communication Service, required to assign roles to the service principal
 - Contributor permission on the resource group to add new resources
 
+## Pre-requisites
+1. Prior to execution, install the Microsoft.Graph module locally and connect to Azure CLI ensuring the Microsoft Graph endpoint is used.
+Note that this step requires PowerShell 7 or higher. 
+
+```PowerShell
+# Install the Microsoft Graph PowerShell SDK if not already installed, and install or upgrade the Azure Communication module for the CLI
+if (-not (Get-Module -ListAvailable -Name Microsoft.Graph)) {
+    Install-Module Microsoft.Graph -Scope CurrentUser -Repository PSGallery -Force
+}
+
+az extension add --upgrade -n communication
+```
+
+This process may take some time to complete. Once completed, import the Microsoft.Graph module.
+
+```PowerShell
+# Import the Microsoft Graph PowerShell SDK module. May take some time to complete. 
+Import-Module Microsoft.Graph
+```
+
+This step may also take some time to complete. Once completed, connect the Azure account using the Microsoft Graph endpoint.
+```PowerShell
+# Connect to Azure account and ensure the Microsoft Graph endpoint is used
+Connect-AzAccount -UseDeviceAuthentication -AuthScope MicrosoftGraphEndpointResourceId
+```
+
+Finally you need to connect to the Microsoft Graph with the required permissions requests.
+```PowerShell
+# Connect to Microsoft Graph Command Line Tools with the required permissions
+Connect-MgGraph -Scopes 'Application.ReadWrite.All'
+```
+
 ## Usage
+Now that the pre-requisites are complete, proceed with running the script.
 
 1. Change the 8 variables in the `test.ps1` script to match your Azure environment and run `test.ps1` to send a test email using your new authenticated sender with a custom MailFrom address. 
 
